@@ -1,4 +1,5 @@
-FROM debian:9.8
+
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu16.04
 LABEL maintainer="bstriner@gmail.com"
 
 RUN apt-get update && \
@@ -31,7 +32,7 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt-kaldi && \
     ./extras/install_mkl.sh && \
     make -j $(nproc) && \
     cd /opt-kaldi/src && \
-    ./configure --shared && \
+    ./configure --shared --use-cuda && \
     make depend -j $(nproc) && \
     make -j $(nproc)
 
